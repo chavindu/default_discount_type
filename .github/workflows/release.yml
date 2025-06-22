@@ -1,4 +1,4 @@
-name: Build and Upload Release ZIP
+name: Build and Upload Versioned Plugin ZIP
 
 on:
   push:
@@ -13,13 +13,24 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Create plugin ZIP
-        run: |
-          zip -r default_discount_type.zip . -x "*.git*" -x "*.github*" -x "*tests*" -x "*.DS_Store"
+      - name: Set version from tag
+        id: vars
+        run: echo "VERSION=${GITHUB_REF##*/}" >> $GITHUB_ENV
 
-      - name: Upload release ZIP
+      - name: Prepare plugin folder structure
+        run: |
+          mkdir default_discount_type
+          shopt -s extglob
+          mv !(default_discount_type|.git|.github) default_discount_type/
+
+      - name: Create versioned ZIP
+        run: |
+          zip -r default_discount_type-${VERSION}.zip default_discount_type
+
+      - name: Upload release asset
         uses: softprops/action-gh-release@v2
         with:
-          files: default_discount_type.zip
+          files: default_discount_type-${{ env.VERSION }}.zip
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT }}  # Use your PAT instead of default token
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+`
