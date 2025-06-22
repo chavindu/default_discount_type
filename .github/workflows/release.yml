@@ -21,8 +21,11 @@ jobs:
         run: |
           mkdir -p build/default_discount_type
           shopt -s dotglob
-          cp -r * build/default_discount_type/
-          rm -rf build/default_discount_type/.git build/default_discount_type/.github build/default_discount_type/build
+          for item in *; do
+            if [[ "$item" != "build" && "$item" != ".git" && "$item" != ".github" ]]; then
+              cp -r "$item" build/default_discount_type/
+            fi
+          done
 
       - name: Create versioned ZIP
         run: |
