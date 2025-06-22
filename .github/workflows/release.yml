@@ -1,0 +1,26 @@
+# File: .github/workflows/release.yml
+name: Build and Upload Release ZIP
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Create plugin ZIP
+        run: |
+          zip -r default_discount_type.zip . -x "*.git*" -x "*.github*" -x "*tests*" -x "*.DS_Store"
+
+      - name: Upload release ZIP
+        uses: softprops/action-gh-release@v2
+        with:
+          files: default_discount_type.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
