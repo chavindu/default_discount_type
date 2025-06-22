@@ -21,7 +21,7 @@ This module allows administrators to set a default discount type for invoices, e
 
 ## Configuration
 
-1. Go to **Setup > Settings > Finance > General**
+1. Go to **Setup > Settings > Sales > General**
 2. Scroll down to find the "Default Discount Type" setting
 3. Select your preferred default discount type:
    - **No Discount**: No discount type will be pre-selected
@@ -65,6 +65,12 @@ For support or feature requests, please contact:
 - **Email**: Contact us through our website
 
 ## Changelog
+
+### Version 1.0.2
+- Fixed settings visibility issue on sales general settings page
+- Corrected hook implementation for proper integration
+- Updated help text with clearer location instructions
+- Improved module reliability and user experience
 
 ### Version 1.0.1
 - Enhanced JavaScript with multiple retry attempts

@@ -5,7 +5,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 /*
 Module Name: Default Discount Type
 Description: Module to set default discount type for invoices, estimates, and proposals. Developed by BitLab (Pvt) Ltd.
-Version: 1.0.1
+Version: 1.0.2
 Requires at least: 2.3.*
 Author: BitLab (Pvt) Ltd
 Author URI: https://bitlab.lk
@@ -35,7 +35,7 @@ function default_discount_type_module_deactivation_hook()
 register_language_files(DEFAULT_DISCOUNT_TYPE_MODULE_NAME, [DEFAULT_DISCOUNT_TYPE_MODULE_NAME]);
 
 // Add hook to inject setting into sales general page
-hooks()->add_action('after_sales_general_settings', 'default_discount_type_add_setting');
+hooks()->add_action('after_settings_group_view', 'default_discount_type_add_setting');
 
 // Add hook to set default discount type for new documents
 hooks()->add_action('admin_init', 'default_discount_type_admin_init');
@@ -186,8 +186,12 @@ function default_discount_type_admin_footer_js()
 /**
  * Add default discount type setting to sales general page
  */
-function default_discount_type_add_setting()
+function default_discount_type_add_setting($group)
 {
+    if ($group['id'] !== 'sales_general') {
+        return;
+    }
+
     $default_discount_type = get_option('default_discount_type');
     ?>
     <hr />
